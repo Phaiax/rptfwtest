@@ -218,7 +218,7 @@ usage or for seraching for memory induced errors. Switch it off for production, 
 #if MOTHERBOARD==8 || MOTHERBOARD==9 || CPU_ARCH!=ARCH_AVR
 #define EXTERNALSERIAL
 #endif
-//#define EXTERNALSERIAL  // Force using arduino serial
+#define EXTERNALSERIAL  // Force using arduino serial
 #ifndef EXTERNALSERIAL
 #define  HardwareSerial_h // Don't use standard serial console
 #endif
