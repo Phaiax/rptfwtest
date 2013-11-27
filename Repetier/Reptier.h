@@ -24,7 +24,7 @@
 
 #include <avr/io.h>
 
-#define REPETIER_VERSION "0.81"
+#define REPETIER_VERSION "0.82"
 
 // ##########################################################################################
 // ##                                  Debug configuration                                 ##
@@ -117,7 +117,7 @@ usage or for seraching for memory induced errors. Switch it off for production, 
 #endif
 
 #define KOMMA
-#if NUM_EXTRUDER>0 && EXT0_TEMPSENSOR_TYPE<100
+#if NUM_EXTRUDER>0 && EXT0_TEMPSENSOR_TYPE<101
 #define EXT0_ANALOG_INPUTS 1
 #define EXT0_SENSOR_INDEX 0
 #define EXT0_ANALOG_CHANNEL EXT0_TEMPSENSOR_PIN
@@ -129,7 +129,7 @@ usage or for seraching for memory induced errors. Switch it off for production, 
 #define EXT0_ANALOG_CHANNEL
 #endif
 
-#if NUM_EXTRUDER>1 && EXT1_TEMPSENSOR_TYPE<100
+#if NUM_EXTRUDER>1 && EXT1_TEMPSENSOR_TYPE<101
 #define EXT1_ANALOG_INPUTS 1
 #define EXT1_SENSOR_INDEX EXT0_ANALOG_INPUTS
 #define EXT1_ANALOG_CHANNEL KOMMA EXT1_TEMPSENSOR_PIN
@@ -141,7 +141,7 @@ usage or for seraching for memory induced errors. Switch it off for production, 
 #define EXT1_ANALOG_CHANNEL
 #endif
 
-#if NUM_EXTRUDER>2 && EXT2_TEMPSENSOR_TYPE<100
+#if NUM_EXTRUDER>2 && EXT2_TEMPSENSOR_TYPE<101
 #define EXT2_ANALOG_INPUTS 1
 #define EXT2_SENSOR_INDEX EXT0_ANALOG_INPUTS+EXT1_ANALOG_INPUTS
 #define EXT2_ANALOG_CHANNEL KOMMA EXT2_TEMPSENSOR_PIN
@@ -153,7 +153,7 @@ usage or for seraching for memory induced errors. Switch it off for production, 
 #define EXT2_ANALOG_CHANNEL
 #endif
 
-#if NUM_EXTRUDER>3 && EXT3_TEMPSENSOR_TYPE<100
+#if NUM_EXTRUDER>3 && EXT3_TEMPSENSOR_TYPE<101
 #define EXT3_ANALOG_INPUTS 1
 #define EXT3_SENSOR_INDEX EXT0_ANALOG_INPUTS+EXT1_ANALOG_INPUTS+EXT2_ANALOG_INPUTS
 #define EXT3_ANALOG_CHANNEL KOMMA EXT3_TEMPSENSOR_PIN
@@ -165,7 +165,7 @@ usage or for seraching for memory induced errors. Switch it off for production, 
 #define EXT3_ANALOG_CHANNEL
 #endif
 
-#if NUM_EXTRUDER>4 && EXT4_TEMPSENSOR_TYPE<100
+#if NUM_EXTRUDER>4 && EXT4_TEMPSENSOR_TYPE<101
 #define EXT4_ANALOG_INPUTS 1
 #define EXT4_SENSOR_INDEX EXT0_ANALOG_INPUTS+EXT1_ANALOG_INPUTS+EXT2_ANALOG_INPUTS+EXT3_ANALOG_INPUTS
 #define EXT4_ANALOG_CHANNEL KOMMA EXT4_TEMPSENSOR_PIN
@@ -177,7 +177,7 @@ usage or for seraching for memory induced errors. Switch it off for production, 
 #define EXT4_ANALOG_CHANNEL
 #endif
 
-#if NUM_EXTRUDER>5 && EXT5_TEMPSENSOR_TYPE<100
+#if NUM_EXTRUDER>5 && EXT5_TEMPSENSOR_TYPE<101
 #define EXT5_ANALOG_INPUTS 1
 #define EXT5_SENSOR_INDEX EXT0_ANALOG_INPUTS+EXT1_ANALOG_INPUTS+EXT2_ANALOG_INPUTS+EXT3_ANALOG_INPUTS+EXT4_ANALOG_INPUTS
 #define EXT5_ANALOG_CHANNEL KOMMA EXT5_TEMPSENSOR_PIN
@@ -189,7 +189,7 @@ usage or for seraching for memory induced errors. Switch it off for production, 
 #define EXT5_ANALOG_CHANNEL
 #endif
 
-#if HAVE_HEATED_BED==true && HEATED_BED_SENSOR_TYPE<100
+#if HAVE_HEATED_BED==true && HEATED_BED_SENSOR_TYPE<101
 #define BED_ANALOG_INPUTS 1
 #define BED_SENSOR_INDEX EXT0_ANALOG_INPUTS+EXT1_ANALOG_INPUTS+EXT2_ANALOG_INPUTS+EXT3_ANALOG_INPUTS+EXT4_ANALOG_INPUTS+EXT5_ANALOG_INPUTS
 #define BED_ANALOG_CHANNEL KOMMA  HEATED_BED_SENSOR_PIN
@@ -634,6 +634,8 @@ extern void mc_arc(float *position, float *target, float *offset, float radius, 
 #define PRINTER_FLAG0_STEPPER_DISABLED      1
 #define PRINTER_FLAG0_SEPERATE_EXTRUDER_INT 2
 #define PRINTER_FLAG0_TEMPSENSOR_DEFECT     4
+#define PRINTER_FLAG0_FORCE_CHECKSUM        8
+
 typedef struct { 
   byte flag0; // 1 = stepper disabled, 2 = use external extruder interrupt, 4 = temp Sensor defect 
 #if USE_OPS==1 || defined(USE_ADVANCE)
@@ -680,6 +682,7 @@ typedef struct {
   float opsMoveAfter;               ///< Start move after opsModeAfter percent off full retract.
   int opsMoveAfterSteps;            ///< opsMoveAfter converted in steps (negative value!).
 #endif
+  float minimumSpeed;               ///< lowest allowed speed to keep integration error small
   long xMaxSteps;                   ///< For software endstops, limit of move in positive direction.
   long yMaxSteps;                   ///< For software endstops, limit of move in positive direction.
   long zMaxSteps;                   ///< For software endstops, limit of move in positive direction.
@@ -722,6 +725,7 @@ typedef struct {
   char motorX;
   char motorY;
 #endif
+  inline byte isAdvanceActivated() {return flag0 & PRINTER_FLAG0_SEPERATE_EXTRUDER_INT;}
 } PrinterState;
 extern PrinterState printer_state;
 
