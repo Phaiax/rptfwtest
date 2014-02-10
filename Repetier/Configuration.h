@@ -603,7 +603,7 @@ on this endstop.
 #define MIN_HARDWARE_ENDSTOP_Z true
 #define MAX_HARDWARE_ENDSTOP_X false
 #define MAX_HARDWARE_ENDSTOP_Y false
-#define MAX_HARDWARE_ENDSTOP_Z true
+#define MAX_HARDWARE_ENDSTOP_Z false
 
 //If your axes are only moving in one direction, make sure the endstops are connected properly.
 //If your axes move in one direction ONLY when the endstops are triggered, set ENDSTOPS_INVERTING to true here
@@ -903,7 +903,7 @@ Caution: Don't enable anti-ooze in your slicer if you are using this.
 
  Overridden if EEPROM activated.
 */
-#define OPS_MODE 0
+#define OPS_MODE 1
 
 /** \brief Minimum distance for retraction.
 
@@ -911,12 +911,12 @@ If a travel move is shorter than this distance, no retraction will occur. This i
 retraction with infill, where the angle to the perimeter needs a short stop. Unit is mm.
  Overridden if EEPROM activated.
 */
-#define OPS_MIN_DISTANCE 0.8
+#define OPS_MIN_DISTANCE 1
 
 /** \brief Move printhead only after x% of retract distance have been retracted.
 
  Overridden if EEPROM activated.*/
-#define OPS_MOVE_AFTER 50.0
+#define OPS_MOVE_AFTER 20.0
 /** \brief Retraction distance in mm. If you want to enable OPS only sometimes, compile with
 OPS support and set retraction distance to 0. If you set it to e.g. 3 in your eeprom settings it is enabled.
  Overridden if EEPROM activated.*/
@@ -962,8 +962,8 @@ to activate the quadratic term. Only adds lots of computations and storage usage
  Overridden if EEPROM activated.
 */
 //#define BAUDRATE 57600
-//#define BAUDRATE 76800
-#define BAUDRATE 115200
+#define BAUDRATE 76800
+//#define BAUDRATE 115200
 //#define BAUDRATE 250000
 
 /**
@@ -1060,7 +1060,7 @@ The following settings override uiconfig.h!
 4 = Foltyn 3DMaster with display attached
 5 = ViKi LCD - Check pin configuration in ui.h for feature controller 5!!! sd card disabled by default!
 */
-#define FEATURE_CONTROLLER 0
+#define FEATURE_CONTROLLER 1
 
 /**
 Select the language to use.

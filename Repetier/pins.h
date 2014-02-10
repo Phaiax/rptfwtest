@@ -415,6 +415,12 @@ STEPPER_CURRENT_CONTROL
 #define MOSI_PIN         51
 #define MAX6675_SS       53
 
+// RAMPS 1.4 SD Module
+#define SDSUPPORT true
+#define SDCARDDETECTINVERTED false
+#define SDCARDDETECT -1
+
+
 #ifdef AZTEEG_X3
 #define SDSUPPORT true
 #define SDCARDDETECTINVERTED false
